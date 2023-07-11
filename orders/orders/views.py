@@ -1,17 +1,13 @@
-# Этап 3. Реализация импорта товаров
+from rest_framework.views import APIView
 
-## Критерии достижения:
+from models import Shop, Category, Product, ProductInfo, Parameter, Order, OrderItem, ProductParameter, Contact
 
-1. Созданы функции загрузки товаров из приложенных файлов в модели Django.
-2. Загружены товары из всех файлов для импорта.
-
-## Реальный пример кода на Python:
-```python
 
 class PartnerUpdate(APIView):
     """
     Класс для обновления прайса от поставщика
     """
+
     def post(self, request, *args, **kwargs):
         if not request.user.is_authenticated:
             return JsonResponse({'Status': False, 'Error': 'Log in required'}, status=403)
@@ -56,5 +52,3 @@ class PartnerUpdate(APIView):
                 return JsonResponse({'Status': True})
 
         return JsonResponse({'Status': False, 'Errors': 'Не указаны все необходимые аргументы'})
-
-```
