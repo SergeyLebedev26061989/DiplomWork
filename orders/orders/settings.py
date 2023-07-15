@@ -25,7 +25,7 @@ SECRET_KEY = "django-insecure-q2ilqo)9(x!vy6rf#(n^%2c%_5nys-74)jhki0r-e)mzkwo4$j
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -37,10 +37,9 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    'backend.apps.BackendConfig',
+    'orders.apps.BackendConfig',
     'rest_framework',
     'rest_framework.authtoken',
-    'django_rest_passwordreset',
 ]
 
 MIDDLEWARE = [
@@ -53,12 +52,12 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-ROOT_URLCONF = "orders.api.urls"
+ROOT_URLCONF = "orders.urls"
 
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [os.path.join(BASE_DIR, 'templates')],
+        "DIRS": [],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -78,19 +77,13 @@ WSGI_APPLICATION = "orders.wsgi.application"
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {
-    #     "default": {
-    #         "ENGINE": "django.db.backends.sqlite3",
-    #         "NAME": BASE_DIR / "db.sqlite3",
-    #     }
-    # }
-
     'default': {
             'ENGINE': 'django.db.backends.postgresql',
             'NAME': 'diplom_db',
             'USER': 'postgres',
             'PASSWORD': 'seryoga1989',
             'HOST': '127.0.0.1',
-            'PORT': '5433',
+            'PORT': '5432',
     }
 }
 
@@ -132,14 +125,16 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-AUTH_USER_MODEL = 'backend.User'
+DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+AUTH_USER_MODEL = 'orders.User'
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 # EMAIL_USE_TLS = True
 
 EMAIL_HOST = 'smtp.mail.ru'
-EMAIL_HOST_USER = 'netology-pdiplom@mail.ru'
-EMAIL_HOST_PASSWORD = 'i~8W4rdRPFlo'
+EMAIL_HOST_USER = 'seryoga-lebedev@yandex.ru'
+EMAIL_HOST_PASSWORD = 'Seryoga1989@'
 EMAIL_PORT = '465'
 EMAIL_USE_SSL = True
 SERVER_EMAIL = EMAIL_HOST_USER
@@ -155,8 +150,6 @@ REST_FRAMEWORK = {
     ),
 
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        # 'rest_framework.authentication.SessionAuthentication',
-        # 'rest_framework.authentication.BasicAuthentication',
         'rest_framework.authentication.TokenAuthentication',
     ),
 

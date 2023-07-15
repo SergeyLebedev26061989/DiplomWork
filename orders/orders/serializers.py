@@ -11,7 +11,7 @@ class ShopSerializers(serializers.ModelSerializer):
 class CategorySerializers(serializers.ModelSerializer):
     class Meta:
         model = Category
-        fields = ['shop', 'name']
+        fields = ['id', 'shop', 'name']
 
 class ProductSerializers(serializers.ModelSerializer):
     class Meta:
@@ -46,4 +46,11 @@ class OrderItemSerializers(serializers.ModelSerializer):
 class ContactSerializers(serializers.ModelSerializer):
     class Meta:
         model = Contact
-        fields = ['user', 'city', 'street', 'house', 'structure', 'building', 'apartment', 'phone']
+        fields = ['id', 'user', 'city', 'street', 'house', 'structure', 'building', 'apartment', 'phone']
+
+class UserSerializer(serializers.ModelSerializer):
+    contacts = ContactSerializer(read_only=True, many=True)
+    class Meta:
+        model = User
+        fields = ['id', 'first_name', 'last_name', 'email', 'company', 'position', 'contacts']
+        read_only_fields = ('id',)
