@@ -1,5 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser, BaseUserManager
+from django.utils.translation import gettext_lazy as _
+from django.contrib.auth.validators import UnicodeUsernameValidator
+
 
 STATE_CHOICES = (
     ('basket', 'Статус корзины'),
@@ -75,7 +78,7 @@ class User(AbstractUser):
     )
     is_active = models.BooleanField(
         _('active'),
-        default=False,
+        default=True,
         help_text=_(
             'Designates whether this user should be treated as active. '
             'Unselect this instead of deleting accounts.'
@@ -93,7 +96,7 @@ class User(AbstractUser):
 
 
 class Shop(models.Model):
-    id = models.ForeignKey(on_delete=models.CASCADE)
+    # id = models.ForeignKey(on_delete=models.CASCADE)
     name = models.CharField(max_length=100, verbose_name='Название', unique=True)
     url = models.URLField(verbose_name='Ссылка', unique=True)
 
@@ -135,7 +138,6 @@ class ProductInfo(models.Model):
                                 blank=True, on_delete=models.CASCADE)
     shop = models.ForeignKey(Shop, verbose_name='Магазин', related_name='product_info',
                              blank=True, on_delete=models.CASCADE)
-    name = models.CharField
     quantity = models.IntegerField(verbose_name='Количество')
     price = models.FloatField(verbose_name='Цена')
     price_rrc = models.FloatField(verbose_name='Рекомендуемая розничная цена')
@@ -168,33 +170,6 @@ class ProductParameter(models.Model):
         verbose_name = 'Параметр'
         verbose_name_plural = 'Список параметров'
 
-
-class Order(models.Model):
-    user = models.ForeignKey(User, verbose_name='Пользователь', related_name='orders', blank=True,
-                             on_delete=models.CASCADE)
-    dt = models.DateTimeField(auto_now_add=True)
-    status = models.CharField(max_length=20, verbose_name='Статус')
-
-    class Meta:
-        verbose_name = 'Заказ'
-        verbose_name_plural = 'Список заказов'
-        ordering = ('-dt')
-
-    def __str__(self):
-        return str(self.dt)
-
-
-class OrderItem(models.Model):
-    order = models.ForeignKey(Order, verbose_name='Заказ', blank=True, on_delete=models.CASCADE)
-    product = models.ForeignKey(ProductInfo, verbose_name='Информация о продукте', blank=True, on_delete=models.CASCADE)
-    shop = models.ForeignKey(Shop, verbose_name='Магазин', blank=True, on_delete=models.CASCADE)
-    quantity = models.PositiveIntegerField(verbose_name='Количество')
-
-    class Meta:
-        verbose_name = 'Продукт заказа'
-        verbose_name_plural = 'Список заказанных продуктов'
-
-
 class Contact(models.Model):
     user = models.ForeignKey(User, verbose_name='Пользователь',
                              related_name='contacts', blank=True,
@@ -213,3 +188,35 @@ class Contact(models.Model):
 
     def __str__(self):
         return f'{self.city} {self.street} {self.house} {self.structure} {self.building} {self.apartment} {self.phone}'
+
+
+
+class Order(models.Model):
+    user = models.ForeignKey(User, verbose_name='Пользователь', related_name='orders', blank=True,
+                             on_delete=models.CASCADE)
+    dt = models.DateTimeField(auto_now_add=True)
+    status = models.CharField(max_length=20, verbose_name='Статус')
+    contact = models.ForeignKey(
+        Contact, verbose_name="Контакт", blank=True, null=True, on_delete=models.CASCADE
+    )
+
+    class Meta:
+        verbose_name = 'Заказ'
+        verbose_name_plural = 'Список заказов'
+        ordering = ('-dt',)
+
+    def __str__(self):
+        return str(self.dt)
+
+
+class OrderItem(models.Model):
+    order = models.ForeignKey(Order, verbose_name='Заказ', blank=True, on_delete=models.CASCADE)
+    product = models.ForeignKey(ProductInfo, verbose_name='Информация о продукте', blank=True, on_delete=models.CASCADE)
+    shop = models.ForeignKey(Shop, verbose_name='Магазин', blank=True, on_delete=models.CASCADE)
+    quantity = models.PositiveIntegerField(verbose_name='Количество')
+
+    class Meta:
+        verbose_name = 'Продукт заказа'
+        verbose_name_plural = 'Список заказанных продуктов'
+
+

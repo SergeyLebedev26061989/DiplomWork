@@ -1,0 +1,22 @@
+shop: МТС
+categories:
+  - id: 220
+    name: Смартфоны
+  - id: 10
+    name: Аксессуары
+  - id: 15
+    name: Flash-накопители
+
+goods:
+  - id: 4
+    category: 2
+    model: apple/Huawei/xs-max
+    name: Смартфон Huawei 10 Lite 512GB (золотистый)
+    price: 22000
+    price_rrc: 20033
+    quantity: 25
+    parameters:
+      "Диагональ (дюйм)": 6.8
+      "Разрешение (пикс)": 2688x1242
+      "Встроенная память (Гб)": 512
+      "Цвет": морская волна

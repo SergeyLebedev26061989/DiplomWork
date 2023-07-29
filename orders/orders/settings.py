@@ -25,7 +25,7 @@ SECRET_KEY = "django-insecure-q2ilqo)9(x!vy6rf#(n^%2c%_5nys-74)jhki0r-e)mzkwo4$j
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     'orders.apps.BackendConfig',
     'rest_framework',
     'rest_framework.authtoken',
+    # 'django_rest_passwordreset',
+
 ]
 
 MIDDLEWARE = [
@@ -118,7 +120,7 @@ USE_I18N = True
 
 USE_L10N = True
 
-USE_TZ = True
+USE_TZ = False
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
@@ -138,6 +140,7 @@ EMAIL_HOST_PASSWORD = 'Seryoga1989@'
 EMAIL_PORT = '465'
 EMAIL_USE_SSL = True
 SERVER_EMAIL = EMAIL_HOST_USER
+MEDIA_ROOT = "C:/Users/seryo/Desktop/python-final-diplom/data/shop1.yaml"
 
 REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
